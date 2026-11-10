@@ -109,7 +109,7 @@
             function matrix_print(m){
                 console.log(matrix_to_string(m));
             }
-            const DIM_X = 4000, DIM_Y = 4000;
+            var DIM_X = 4000, DIM_Y = 4000;
             const NORTH = 0, SOUTH = 1, EAST = 2, WEST = 3;
             const UNCARVED = 0, CARVED = 1;
             var canvas;
@@ -267,7 +267,7 @@
             }
             function run(i_x, i_y, i_r){
                 init(i_x, i_y, i_r)
-                draw_square(0, 0, "white", DIM_X);
+                draw_square(0, 0, "white", DIM_X + 5);
                 draw_node(pos_x + cell_radius/2, pos_y + cell_radius, "blue");
                 draw_node(sol_x * cell_radius + cell_radius/2, sol_y * cell_radius + cell_radius/2, "red");
                 draw_grid();
@@ -283,7 +283,12 @@
                         init_x = parseInt(init_x);
                         init_y = parseInt(init_y);
                         init_r = parseInt(init_r);
+                        DIM_X = init_x * init_r;
+                        DIM_Y = init_y * init_r;
                         valid = true;
+                        renderedCanvas = document.getElementById('canvas');
+                        renderedCanvas.width = DIM_X + 5;
+                        renderedCanvas.height = DIM_Y + 5;
                     }
                 }
                 run(init_x, init_y, init_r);
@@ -304,6 +309,11 @@
                         unsolved = true;
                     }
                 break;
+                case 114:
+                    if(halt && unsolved)
+                        for(var i = 0; i < maze_dim_x; i++)
+                            solve();
+                break;
             }});
 
             pointerEvents.forEach(eventType => {
@@ -320,21 +330,6 @@
                     }
                 });
             });
-
-            (['pointerdown', 'pointerup']).forEach(eventType => {
-                window.addEventListener(eventType, (event) => {
-                    if(halt && unsolved)
-                        for(var i = 0; i < maze_dim_x; i++)
-                            solve();
-                });
-            })
-
-            document.addEventListener('keypress', (event) =>{ switch(event.keyCode){
-                case 114:
-                    if(halt && unsolved)
-                        for(var i = 0; i < maze_dim_x; i++)
-                            solve();
-            }});
             </script>
         </canvas>
         </div>

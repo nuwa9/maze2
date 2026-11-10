@@ -8,6 +8,11 @@
         <div style="text-align:center">
         <canvas id="canvas" width="2300" height="2300">
             <script>
+            const pointerEvents = [
+                'pointerdown', 'pointerup', 'pointermove', 
+                'pointerover', 'pointerout', 'pointerenter', 'pointerleave', 'pointercancel'
+            ];
+
             function Vector(x, y){
                 this.x = x || 0;
                 this.y = y || 0;
@@ -285,7 +290,7 @@
                     }
                 }
                 run(init_x, init_y, init_r);
-                alert("Click OK, then hold the E key.");
+                alert("Click OK, then hold the E key or rub the screen.");
             }
             prime();
             document.addEventListener
@@ -306,6 +311,24 @@
                             solve();
                 break;
             }});
+
+            pointerEvents.forEach(eventType => {
+                window.addEventListener(eventType, (event) => {
+                    if(!halt)
+                        for(var i = 0; i < maze_dim_x; i++)
+                            try { halt = backtrack(); }
+                            catch(e) { }
+                    else if(!unsolved)
+                    {
+                        pos_x = sol_x;
+                        pos_y = sol_y;
+                        unsolved = true;
+                    }
+                    else
+                        for(var i = 0; i < maze_dim_x; i++)
+                            solve();
+                });
+            });
             </script>
         </canvas>
         </div>

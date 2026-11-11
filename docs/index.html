@@ -125,8 +125,8 @@
                 maze_dim_y = i_y;
                 pos_x = 0;
                 pos_y = 0;
-                sol_x = Math.floor(Math.random() * maze_dim_x) - 1;
-                sol_y = Math.floor(Math.random() * maze_dim_y) - 1;
+                sol_x = Math.floor(Math.random() * maze_dim_x - 1);
+                sol_y = Math.floor(Math.random() * maze_dim_y - 1);
                 vector_nw = new Vector(-cell_radius, -cell_radius);
                 vector_ne = new Vector(cell_radius, -cell_radius);
                 vector_se = new Vector(cell_radius, cell_radius);
@@ -155,7 +155,7 @@
                 canvas.lineWidth = "2";
                 canvas.beginPath();
                 canvas.moveTo(i_x, i_y)
-                canvas.arc(i_x, i_y, cell_radius / 5, 0, Math.PI * 2, 0);
+                canvas.arc(i_x, i_y, cell_radius/2, 0, Math.PI * 2, 0);
                 canvas.fill();
                 canvas.closePath();
             }
@@ -268,8 +268,8 @@
             function run(i_x, i_y, i_r){
                 init(i_x, i_y, i_r)
                 draw_square(0, 0, "white", DIM_X + 5);
-                draw_node(pos_x + cell_radius/2, pos_y + cell_radius, "blue");
-                draw_node(sol_x * cell_radius + cell_radius/2, sol_y * cell_radius + cell_radius/2, "red");
+                draw_node(pos_x + cell_radius/1.5, pos_y + cell_radius/1.5, "blue");
+                draw_node(sol_x * cell_radius + cell_radius/1.5, sol_y * cell_radius + cell_radius/1.5, "red");
                 draw_grid();
             }
             function prime(){
@@ -286,11 +286,11 @@
                         DIM_X = init_x * init_r;
                         DIM_Y = init_y * init_r;
                         valid = true;
-                        renderedCanvas = document.getElementById('canvas');
-                        renderedCanvas.width = DIM_X + 5;
-                        renderedCanvas.height = DIM_Y + 5;
                     }
                 }
+                renderedCanvas = document.getElementById('canvas');
+                renderedCanvas.width = DIM_X * 1.1;
+                renderedCanvas.height = DIM_Y * 1.1;
                 run(init_x, init_y, init_r);
                 alert("Hold the E key or rub the screen to generate a maze.");
                 alert("A solution is drawn by holding the R key or clicking.");
